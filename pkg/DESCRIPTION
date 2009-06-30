@@ -1,0 +1,14 @@
+Package: truncnorm
+Version: 1.0.0
+Date: 2008-08-07
+Title: Truncated Normal Distribution
+Description: r/d/p/q functions for the truncated normal distribution
+Author:
+  Heike Trautmann <trautmann@statistik.uni-dortmund.de>
+  and Detlef Steuer <detlef.steuer@hsu-hamburg.de>
+  and Olaf Mersmann <olafm@statistik.uni-dortmund.de>
+Maintainer: Olaf Mersmann <olafm@statistik.uni-dortmund.de>
+Depends: R (>= 2.7.0)
+License: GPL-2
+URL: http://r-forge.r-project.org/projects/desire
+LazyData: yes
