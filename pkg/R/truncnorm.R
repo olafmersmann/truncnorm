@@ -37,8 +37,16 @@ qtruncnorm <- function(p, a, b, mean=0, sd=1) {
   return (ret)
 }
 
-rtruncnorm <- function(n, a, b, mean=0, sd=1)
+rtruncnorm <- function(n, a, b, mean=0, sd=1) {
+  if (length(n) > 1)
+    n <- length(n)
+  if (!all(is.numeric(n)))
+    stop("Invalid argument for 'n'.")
+  if (!all(is.finite(n)))
+    stop("Non finite argument for 'n'.")
+  
   .Call("rtruncnorm", as.integer(n), a, b, mean, sd)
+}
 
 etruncnorm <- function(a, b, mean, sd)
   .Call("etruncnorm", a, b, mean, sd)
