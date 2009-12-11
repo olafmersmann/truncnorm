@@ -12,23 +12,16 @@
 #include <Rinternals.h>
 #include <R_ext/Applic.h>
 
+#include "sexp_macros.h"
+
+#define ALLOC_REAL_VECTOR(S, D, N)		       \
+    SEXP S;					       \
+    PROTECT(S = allocVector(REALSXP, N));	       \
+    double *D = REAL(S);
+
 #ifndef MAX
 #define MAX(A, B) ((A>B)?(A):(B))
 #endif
-
-#define UNPACK_REAL_VECTOR(S, D, N)		\
-  double *D = REAL(S);				\
-  R_len_t N = length(S);
-
-#define UNPACK_INTEGER_VECTOR(S, I, N)		\
-  int *I = INTEGER(S);				\
-  R_len_t N = length(S);
-
-#define ALLOC_REAL_VECTOR(S, D, N)		\
-  SEXP S;					\
-  PROTECT(S = allocVector(REALSXP, N));		\
-  double *D = REAL(S);
-
 
 SEXP dtruncnorm(SEXP s_x, SEXP s_a, SEXP s_b, SEXP s_mean, SEXP s_sd) {
   R_len_t i, n;
@@ -98,7 +91,7 @@ SEXP ptruncnorm(SEXP s_q, SEXP s_a, SEXP s_b, SEXP s_mean, SEXP s_sd) {
 
 SEXP rtruncnorm(SEXP s_n, SEXP s_a, SEXP s_b, SEXP s_mean, SEXP s_sd) {
   R_len_t i, nn;
-  UNPACK_INTEGER_VECTOR(s_n   , n   , n_n);
+  UNPACK_INT_VECTOR(s_n   , n   , n_n);
   UNPACK_REAL_VECTOR   (s_a   , a   , n_a);
   UNPACK_REAL_VECTOR   (s_b   , b   , n_b);
   UNPACK_REAL_VECTOR   (s_mean, mean, n_mean);
