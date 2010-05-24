@@ -12,5 +12,5 @@ if (require("RUnit", quietly=TRUE)) {
   library(package=pkg, character.only=TRUE)  
   path <- system.file("unittests", package = pkg)
   stopifnot(file.exists(path), file.info(path.expand(path))$isdir)
-  source(file.path(path, "runner.R"), echo = TRUE)
+  source(file.path(path, "runner.r"), echo = TRUE)
 }
