@@ -25,7 +25,7 @@ vtruncnorm(a=-Inf, b=Inf, mean=0, sd=1)
   \item{n}{number of observations. If 'length(n) > 1', the length is
           taken to be the number required.}
   \item{a}{vector of lower bounds. These may be \code{-Inf}}
-  \item{b}{vector of upper bounds. These may be \code{Inf}}}
+  \item{b}{vector of upper bounds. These may be \code{Inf}}
   \item{mean}{vector of means.}
   \item{sd}{vector of standard deviations.}
 }
