@@ -15,5 +15,4 @@ clean:
 pkg: clean
 	echo "Date: $(date +%Y-%m-%d)" >> pkg/DESCRIPTION
 	R CMD build pkg
-	R CMD build --binary pkg
 	git checkout pkg/DESCRIPTION
