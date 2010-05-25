@@ -48,7 +48,7 @@ check_dev( 0.0, 1.0, -5.0,  1.0)
 
 ################################################################################
 ## Sanity checks on random number generators
-check_r <- function(a, b, mean, sd, n=1000) {
+check_r <- function(a, b, mean, sd, n=10000) {
   x <- rtruncnorm(n, a, b, mean, sd)
   if (!all(x > a & x < b)) {
     message(sprintf("FAIL: rtruncnorm(%i, %4.1f, %4.1f, %4.1f, %4.1f) - bounds",
@@ -58,13 +58,13 @@ check_r <- function(a, b, mean, sd, n=1000) {
   ## Check to make sure mean and variance have the correct magnitude.
   e.x <- mean(x)
   e <- etruncnorm(a, b, mean, sd)
-  if (abs(e.x - e)/sd > 0.1) {
+  if (abs(e.x - e)/sd > 0.05) {
     message(sprintf("FAIL: rtruncnorm(%i, %4.1f, %4.1f, %4.1f, %4.1f) - mean %f vs. %f",
                     n, a, b, mean, sd, e.x, e))
   }
   sd.x <- sd(x)
   sd <- sqrt(vtruncnorm(a, b, mean, sd))
-  if (abs(sd.x - sd)/sd.x > 0.1) {
+  if (abs(sd.x - sd)/sd.x > 0.05) {
     message(sprintf("FAIL: rtruncnorm(%i, %4.1f, %4.1f, %4.1f, %4.1f) - variance %f vs. %f",
                     n, a, b, mean, sd, sd.x, sd))
   }

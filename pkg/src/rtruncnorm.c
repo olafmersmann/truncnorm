@@ -93,12 +93,12 @@ static R_INLINE double urs_a_b(double a, double b){
     if (a < 0 && b > 0) {
 	do{
 	    x = runif(a, b);
-	    u = runif(0, 1);
-	} while (runif(0, 1) * phi_a > dnorm(x, 0.0, 1.0, FALSE));
+	} while (runif(0, 1) * M_1_SQRT_2PI > dnorm(x,0,1,0));
     } else {
 	do{
 	    x = runif(a, b);
-	} while (runif(0, 1) * M_1_SQRT_2PI > dnorm(x,0,1,0));
+	    u = runif(0, 1);
+	} while (runif(0, 1) * phi_a > dnorm(x, 0.0, 1.0, FALSE));
     }
     return x;
 }
@@ -124,15 +124,15 @@ static R_INLINE double r_truncnorm(double a, double b, double mean, double sd) {
     const double beta = (b - mean) / sd;
     const double phi_a = dnorm(a, 0.0, 1.0, FALSE);
     const double phi_b = dnorm(b, 0.0, 1.0, FALSE);
-    if (b <= a) {
+    if (beta <= alpha) {
 	return NA_REAL;
-    } else if (a < 0 && 0 < b) {
+    } else if (alpha < 0 && 0 < beta) {
 	if (phi_a < t1 && phi_b < t1) {
 	    return mean + sd * nrs_a_b(alpha, beta);
 	} else {
 	    return mean + sd * urs_a_b(alpha, beta);
 	}
-    } else if (a >= 0) {
+    } else if (alpha >= 0) {
 	if (phi_a / phi_b <= t2) {
 	    return mean + sd * urs_a_b(alpha, beta);
 	} else {
@@ -142,7 +142,7 @@ static R_INLINE double r_truncnorm(double a, double b, double mean, double sd) {
 		return mean + sd * ers_a_b(alpha, beta);
 	    }
 	}
-    } else { /* b <= 0 */
+    } else { /* beta <= 0 */
 	if (phi_a / phi_b <= t2) {
 	    return mean - sd * urs_a_b(-beta, -alpha);
 	} else {

@@ -41,7 +41,7 @@ vtruncnorm(a=-Inf, b=Inf, mean=0, sd=1)
   'vtruncnorm' the variance of the distirbution.
 }
 \references{
-  The adaptive rejection sampler follows the description given in
+  The adapt-reject sampler follows the description given in
 
   Geweke, J. (1991). \emph{Efficient simulation from the multivariate normal
   and student-t distributions subject to linear constraints}. In
@@ -54,8 +54,7 @@ vtruncnorm(a=-Inf, b=Inf, mean=0, sd=1)
   Detlef Steuer \email{steuer@hsu-hamburg.de},
   Olaf Mersmann \email{olafm@statistik.tu-dortmund.de} and
   Björn Bornkamp \email{bornkamp@statistik.tu-dortmun.de} who donated a
-  much improved \code{rtruncnorm} implementation using an adaptive
-  rejection sampler.
+  much improved \code{rtruncnorm} implementation using an adapt-reject sampler.
   
   'qtruncnorm' was originally published in package 'msm' written by
   C. H. Jackson \email{chris.jackson@mrc-bsu.cam.ac.uk}
