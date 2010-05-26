@@ -132,3 +132,30 @@ check_r(-Inf,  0.2, 0, 2)
 
 ## Extreme examples:
 check_r(-5, -4, 0, 1)
+
+check_pq <- function(a, b, mean, sd) {
+  for (p in runif(500)) {
+    q <- qtruncnorm(p, a, b, mean, sd)
+    pp <- ptruncnorm(q, a, b, mean, sd)
+    if (abs(p - pp) > 0.00001) {
+      message(sprintf("ptruncnorm(%6.4f, %6.4f, %6.4f, %6.4f, %6.4f) - disagree with qtruncnorm by %f",
+                      p, a, b, mean, sd, abs(p - pp)))
+    }
+  }
+}
+
+check_pq(-1, 0, 0, 1)
+check_pq(-1, 1, 0, 1)
+check_pq( 1, 2, 0, 1)
+check_pq(-1, 0, 4, 1)
+check_pq(-1, 1, 4, 1)
+check_pq( 1, 2, 4, 1)
+check_pq(-1, 0, 0, 3)
+check_pq(-1, 1, 0, 3)
+check_pq( 1, 2, 0, 3)
+check_pq(-1, Inf, 0, 1)
+check_pq(-1, Inf, 4, 1)
+check_pq(-1, Inf, 0, 3)
+check_pq(-Inf, 1, 0, 1)
+check_pq(-Inf, 1, 4, 1)
+check_pq(-Inf, 1, 0, 3)

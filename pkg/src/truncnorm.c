@@ -92,6 +92,36 @@ static R_INLINE double v_truncnorm(double a, double b, double mean, double sd) {
     return (v - c1 - c3) / pi2 - (e2 - mean)*(e2 - mean);
 }
 
+static R_INLINE double ptruncnorm(const double q, const double a, const double b, const double mean, const double sd) {
+    if (q < a) {
+	return 0.0;
+    } else if (q > b) {
+	return 1.0;
+    } else {
+      const double c1 = pnorm(q, mean, sd, TRUE, FALSE);
+      const double c2 = pnorm(a, mean, sd, TRUE, FALSE);
+      const double c3 = pnorm(b, mean, sd, TRUE, FALSE);
+      return (c1 - c2) / (c3 - c2);	
+    }
+}
+
+typedef struct {
+    double a, b, mean, sd, p;
+} qtn;
+
+/* qtmin - helper function to calculate quantiles of the truncated
+ *   normal distribution.
+ *
+ * The root of this function is the desired quantile, given that *p
+ * defines a truncated normal distribution and the desired
+ * quantile. This function increases monotonically in x and is
+ * positive for x=a and negative for x=b if 0 < p < 1.
+ */
+double qtmin(double x, void *p) {
+    qtn *t = (qtn *)p;
+    return ptruncnorm(x, t->a, t->b, t->mean, t->sd) - t->p;
+}
+
 SEXP do_dtruncnorm(SEXP s_x, SEXP s_a, SEXP s_b, SEXP s_mean, SEXP s_sd) {
   R_len_t i, n;
   UNPACK_REAL_VECTOR(s_x   , x   , n_x);
@@ -139,19 +169,61 @@ SEXP do_ptruncnorm(SEXP s_q, SEXP s_a, SEXP s_b, SEXP s_mean, SEXP s_sd) {
     const double cq = q[i % n_q];
     const double ca = a[i % n_a];
     const double cb = b[i % n_b];
-    if (cq < ca) {
-      ret[i] = 0.0;
-    } else if (cq > cb) {
-      ret[i] = 1.0;
-    } else {
-      const double cmean = mean[i % n_mean];
-      const double csd = sd[i % n_sd];
-      const double c1 = pnorm(cq, cmean, csd, TRUE, FALSE);
-      const double c2 = pnorm(ca, cmean, csd, TRUE, FALSE);
-      const double c3 = pnorm(cb, cmean, csd, TRUE, FALSE);
-      ret[i] = (c1 - c2) / (c3 - c2);
-    }
+    const double cmean = mean[i % n_mean];
+    const double csd = sd[i % n_sd];
+    ret[i] = ptruncnorm(cq, ca, cb, cmean, csd);
   }
+  UNPROTECT(1); /* s_ret */
+  return s_ret;
+}
+
+SEXP do_qtruncnorm(SEXP s_p, SEXP s_a, SEXP s_b, SEXP s_mean, SEXP s_sd) {
+  R_len_t i, n;
+  qtn t;
+  double tol;
+  int maxit;
+  UNPACK_REAL_VECTOR(s_p   , p   , n_p);
+  UNPACK_REAL_VECTOR(s_a   , a   , n_a);
+  UNPACK_REAL_VECTOR(s_b   , b   , n_b);
+  UNPACK_REAL_VECTOR(s_mean, mean, n_mean);
+  UNPACK_REAL_VECTOR(s_sd  , sd  , n_sd);
+  
+  n = MAX(MAX(MAX(n_p, n_a), MAX(n_b, n_mean)), n_sd);  
+  ALLOC_REAL_VECTOR(s_ret, ret, n);
+
+  for (i = 0; i < n; ++i) {
+    const double cp = p[i % n_p];
+    const double ca = a[i % n_a];
+    const double cb = b[i % n_b];
+    const double cmean = mean[i % n_mean];
+    const double csd = sd[i % n_sd];
+    if (cp == 0.0) {
+	ret[i] = ca;
+    } else if (cp == 1.0) {
+	ret[i] = cb;
+    } else if (cp < 0.0 || cp > 1.0) {
+	ret[i] = R_NaN;
+    } else if (ca == R_NegInf && cb == R_PosInf) {
+	ret[i] = qnorm(cp, cmean, csd, TRUE, FALSE);
+    } else {
+	/* We need to possible adjust ca and cb for R_zeroin(),
+	 * because R_zeroin() requires finite bounds and ca or cb (but
+	 * not both, see above) may be infinite. In that case, we use
+	 * a simple stepping out procedure to find a lower or upper
+	 * bound from which to begin the search.
+	 */
+	double lower = ca, upper = cb; 
+	if (lower == R_NegInf) { 
+	    lower = -1;
+	    while(ptruncnorm(lower, ca, cb, cmean, csd) - cp >= 0) lower *= 2.0; 
+	} else if (upper == R_PosInf) { 
+	    upper = 1;
+	    while(ptruncnorm(upper, ca, cb, cmean, csd) - cp <= 0) upper *= 2.0; 
+	} 
+	t.a = ca; t.b = cb; t.mean = cmean; t.sd = csd; t.p = cp; maxit = 50; 
+	ret[i] = R_zeroin(lower, upper, &qtmin, &t, &tol, &maxit); 
+    } 
+  } 
   UNPROTECT(1); /* s_ret */
   return s_ret;
 }
