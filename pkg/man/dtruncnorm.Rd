@@ -53,7 +53,7 @@ vtruncnorm(a=-Inf, b=Inf, mean=0, sd=1)
   Heike Trautmann \email{trautmann@statistik.tu-dortmund.de},
   Detlef Steuer \email{steuer@hsu-hamburg.de},
   Olaf Mersmann \email{olafm@statistik.tu-dortmund.de} and
-  Björn Bornkamp \email{bornkamp@statistik.tu-dortmun.de} who donated a
+  Björn Bornkamp \email{bornkamp@statistik.tu-dortmund.de} who donated a
   much improved \code{rtruncnorm} implementation using an accept-reject sampler.
   
   'qtruncnorm' was originally published in package 'msm' written by
