@@ -38,7 +38,7 @@ vtruncnorm(a=-Inf, b=Inf, mean=0, sd=1)
   'dtruncnorm' gives the density, 'ptruncnorm' gives the distribution
   function, 'qtruncnorm' gives the quantile function, 'rtruncnorm'
   generates random deviates, 'etruncnorm' gives the expected value and
-  'vtruncnorm' the variance of the distirbution.
+  'vtruncnorm' the variance of the distribution.
 }
 \references{
   The accept-reject sampler follows the description given in
@@ -54,9 +54,6 @@ vtruncnorm(a=-Inf, b=Inf, mean=0, sd=1)
   Detlef Steuer \email{steuer@hsu-hamburg.de},
   Olaf Mersmann \email{olafm@statistik.tu-dortmund.de} and
   Björn Bornkamp \email{bornkamp@statistik.tu-dortmund.de} who donated a
-  much improved \code{rtruncnorm} implementation using an accept-reject sampler.
-  
-  'qtruncnorm' was originally published in package 'msm' written by
-  C. H. Jackson \email{chris.jackson@mrc-bsu.cam.ac.uk}
+  much improved \code{rtruncnorm} implementation using an accept-reject sampler.  
 }
 \keyword{distribution}
