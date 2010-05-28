@@ -186,6 +186,7 @@ SEXP do_rtruncnorm(SEXP s_n, SEXP s_a, SEXP s_b, SEXP s_mean, SEXP s_sd) {
     } else {
 	ret[i] = NA_REAL;
     }
+    R_CheckUserInterrupt();
   }
   PutRNGstate();
   UNPROTECT(1); /* s_ret */

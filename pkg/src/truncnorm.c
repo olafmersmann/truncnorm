@@ -149,6 +149,7 @@ SEXP do_dtruncnorm(SEXP s_x, SEXP s_a, SEXP s_b, SEXP s_mean, SEXP s_sd) {
     } else { /* Truncated: */
       ret[i] = 0.0;
     }
+    R_CheckUserInterrupt();
   }
   UNPROTECT(1); /* s_ret */
   return s_ret;
@@ -172,6 +173,7 @@ SEXP do_ptruncnorm(SEXP s_q, SEXP s_a, SEXP s_b, SEXP s_mean, SEXP s_sd) {
     const double cmean = mean[i % n_mean];
     const double csd = sd[i % n_sd];
     ret[i] = ptruncnorm(cq, ca, cb, cmean, csd);
+    R_CheckUserInterrupt();
   }
   UNPROTECT(1); /* s_ret */
   return s_ret;
@@ -222,7 +224,8 @@ SEXP do_qtruncnorm(SEXP s_p, SEXP s_a, SEXP s_b, SEXP s_mean, SEXP s_sd) {
 	} 
 	t.a = ca; t.b = cb; t.mean = cmean; t.sd = csd; t.p = cp; maxit = 50; 
 	ret[i] = R_zeroin(lower, upper, &qtmin, &t, &tol, &maxit); 
-    } 
+    }
+    R_CheckUserInterrupt();
   } 
   UNPROTECT(1); /* s_ret */
   return s_ret;
@@ -255,6 +258,7 @@ SEXP do_etruncnorm(SEXP s_a, SEXP s_b, SEXP s_mean, SEXP s_sd) {
     } else {
 	ret[i] = NA_REAL;
     }
+    R_CheckUserInterrupt();
   }
   UNPROTECT(1); /* s_ret */
   return s_ret;  
@@ -287,6 +291,7 @@ SEXP do_vtruncnorm(SEXP s_a, SEXP s_b, SEXP s_mean, SEXP s_sd) {
     } else {
 	ret[i] = NA_REAL;
     }
+    R_CheckUserInterrupt();
   }
   UNPROTECT(1); /* s_ret */
   return s_ret;
