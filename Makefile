@@ -3,9 +3,6 @@
 install: clean
 	R CMD INSTALL --no-multiarch pkg
 
-test: install
-	Rscript pkg/inst/unittests/runner.r
-
 check: clean
 	R CMD check pkg && rm -fR pkg.Rcheck
 

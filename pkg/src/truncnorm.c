@@ -13,6 +13,7 @@
 #include <R_ext/Applic.h>
 
 #include "sexp_macros.h"
+#include "zeroin.h"
 
 #define ALLOC_REAL_VECTOR(S, D, N)		       \
     SEXP S;					       \
@@ -92,7 +93,9 @@ static R_INLINE double v_truncnorm(double a, double b, double mean, double sd) {
     return (v - c1 - c3) / pi2 - (e2 - mean)*(e2 - mean);
 }
 
-static R_INLINE double ptruncnorm(const double q, const double a, const double b, const double mean, const double sd) {
+static R_INLINE double ptruncnorm(const double q, 
+                                  const double a, const double b, 
+                                  const double mean, const double sd) {
     if (q < a) {
 	return 0.0;
     } else if (q > b) {
@@ -214,16 +217,19 @@ SEXP do_qtruncnorm(SEXP s_p, SEXP s_a, SEXP s_b, SEXP s_mean, SEXP s_sd) {
 	 * a simple stepping out procedure to find a lower or upper
 	 * bound from which to begin the search.
 	 */
-	double lower = ca, upper = cb; 
-	if (lower == R_NegInf) { 
+	double lower = ca, upper = cb;
+	if (lower == R_NegInf) {
 	    lower = -1;
-	    while(ptruncnorm(lower, ca, cb, cmean, csd) - cp >= 0) lower *= 2.0; 
-	} else if (upper == R_PosInf) { 
+	    while(ptruncnorm(lower, ca, cb, cmean, csd) - cp >= 0) lower *= 2.0;
+	} else if (upper == R_PosInf) {
 	    upper = 1;
-	    while(ptruncnorm(upper, ca, cb, cmean, csd) - cp <= 0) upper *= 2.0; 
+	    while(ptruncnorm(upper, ca, cb, cmean, csd) - cp <= 0) upper *= 2.0;
 	} 
-	t.a = ca; t.b = cb; t.mean = cmean; t.sd = csd; t.p = cp; maxit = 50; 
-	ret[i] = R_zeroin(lower, upper, &qtmin, &t, &tol, &maxit); 
+	t.a = ca; t.b = cb; t.mean = cmean; t.sd = csd; t.p = cp; maxit = 200;
+        tol = 0.0; /* Set tolerance! */
+	ret[i] = truncnorm_zeroin(lower, upper,
+                                  qtmin(lower, &t), qtmin(upper, &t),
+                                  &qtmin, &t, &tol, &maxit);
     }
     R_CheckUserInterrupt();
   } 
