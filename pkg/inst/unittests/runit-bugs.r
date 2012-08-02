@@ -31,7 +31,7 @@ check_rtruncnorm <- function(a, b, mean, sd, n=2e7) {
 ## are stochastic in nature and might fail even though everything is
 ## OK. If you change anything in rtruncnorm.c, be sure to run these
 ## and investigate if they fail.
-if (FALSE) {  
+if (TRUE) {  
   ## Wrong sampling strategy:
   test.003 <- function() {
     set.seed(42)
