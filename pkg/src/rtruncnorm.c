@@ -11,6 +11,7 @@
 #include <Rmath.h>
 #include <Rinternals.h>
 #include <R_ext/Applic.h>
+#include <float.h>
 
 #include "sexp_macros.h"
 
@@ -69,7 +70,7 @@ static R_INLINE double ers_a_b(double a, double b) {
 /* Normal rejection sampling (a,b) */
 static R_INLINE double nrs_a_b(double a, double b){
     SAMPLER_DEBUG("nrs_a_b", a, b);
-    double x = a - 1.0;
+    double x = -DBL_MAX;
     while(x < a || x > b){
         x = rnorm(0, 1);
     }
@@ -79,7 +80,7 @@ static R_INLINE double nrs_a_b(double a, double b){
 /* Normal rejection sampling (a,inf) */
 static R_INLINE double nrs_a_inf(double a){
     SAMPLER_DEBUG("nrs_a_inf", a, R_PosInf);
-    double x = a - 1.0;
+    double x = -DBL_MAX;
     while(x < a){
         x = rnorm(0, 1);
     }

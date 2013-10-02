@@ -45,14 +45,32 @@ static R_INLINE double e_lefttruncnorm(double a, double mean, double sd) {
 }
 
 static R_INLINE double e_truncnorm(double a, double b, double mean, double sd) {
+    double delta_phi = 0.0, delta_Phi = 0.0;
+
     const double alpha = (a - mean) / sd;
     const double beta = (b - mean) / sd;
+    const double phi_a = dnorm(alpha, 0.0, 1.0, TRUE);
+    const double Phi_a = pnorm(alpha, 0.0, 1.0, TRUE, TRUE);
+    const double phi_b = dnorm(beta, 0.0, 1.0, TRUE);
+    const double Phi_b = pnorm(beta, 0.0, 1.0, TRUE, TRUE);
 
-    const double phi_a = dnorm(alpha, 0.0, 1.0, FALSE);
-    const double Phi_a = pnorm(alpha, 0.0, 1.0, TRUE, FALSE);
-    const double phi_b = dnorm(beta, 0.0, 1.0, FALSE);
-    const double Phi_b = pnorm(beta, 0.0, 1.0, TRUE, FALSE);
-    return mean + sd * (phi_b - phi_a) / ( Phi_a - Phi_b);
+    if (phi_b < phi_a) {
+        delta_phi = logspace_sub(phi_a, phi_b);
+    } else {
+        sd = -sd;
+        delta_phi = logspace_sub(phi_b, phi_a);
+    }
+
+    if (Phi_b > Phi_a) {
+        sd = -sd;
+        delta_Phi = logspace_sub(Phi_b, Phi_a);
+    } else {
+        delta_Phi = logspace_sub(Phi_a, Phi_b);
+    }
+    /* Rprintf("pb - pa = dp: %.16f - %.16f = %.16f\n", phi_b, phi_a, delta_phi); */
+    /* Rprintf("Pa - Pb = dP: %.16f - %.16f = %.16f\n", Phi_a, Phi_b, delta_Phi); */
+
+    return mean + sd *-exp(delta_phi - delta_Phi);
 }
 
 static R_INLINE double e_righttruncnorm(double b, double mean, double sd) {
