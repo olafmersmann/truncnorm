@@ -1,8 +1,13 @@
-useDynLib(truncnorm)
-
 export(dtruncnorm)
 export(ptruncnorm)
 export(qtruncnorm)
 export(rtruncnorm)
 export(etruncnorm)
 export(vtruncnorm)
+
+useDynLib(truncnorm,do_dtruncnorm)
+useDynLib(truncnorm,do_ptruncnorm)
+useDynLib(truncnorm,do_qtruncnorm)
+useDynLib(truncnorm,do_rtruncnorm)
+useDynLib(truncnorm,do_etruncnorm)
+useDynLib(truncnorm,do_vtruncnorm)
