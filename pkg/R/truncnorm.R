@@ -19,10 +19,10 @@ qtruncnorm <- function(p, a=-Inf, b=Inf, mean=0, sd=1)
 rtruncnorm <- function(n, a=-Inf, b=Inf, mean=0, sd=1) {
   if (length(n) > 1)
     n <- length(n)
-  if (length(n) > 1)
-    n <- length(n)
   else if (!is.numeric(n))
     stop("non-numeric argument n.")
+  else if (n == 0)
+    return(NULL)
   .Call("do_rtruncnorm", as.integer(n), a, b, mean, sd)
 }
 
