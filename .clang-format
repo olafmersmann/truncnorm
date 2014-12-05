@@ -1,0 +1,4 @@
+{
+  BasedOnStyle: llvm,
+  IndentWidth: 2,
+}

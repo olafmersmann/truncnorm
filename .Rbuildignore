@@ -4,3 +4,4 @@
 ^examples
 ^src/.*\.o
 ^src/.*\.so
+.clang-format
