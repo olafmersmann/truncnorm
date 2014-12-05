@@ -1,21 +1,19 @@
-require("truncnorm")
+context("sanity checks")
 
 ################################################################################
 ## Check d/e/vtruncnorm all in one function:
 check_dev <- function(a, b, mean=0, sd=1) {
+  prefix <- sprintf("DEV: a=%f, b=%f, mean=%f, sd=%f", a, b, mean, sd)
   e <- etruncnorm(a, b, mean, sd)
   v <- vtruncnorm(a, b, mean, sd)
 
   ee <- integrate(function(x) x * dtruncnorm(x, a, b, mean, sd), a, b)$value
-  if (abs(e - ee)/e > 0.00005) {
-    message(sprintf("FAIL: etruncnorm(%4.1f, %4.1f, %4.1f, %4.1f) - mismatch %f vs. %f",
-                    a, b, mean, sd, ee, e))
-  }
   ev <- integrate(function(x) (x-ee)^2 * dtruncnorm(x, a, b, mean, sd), a, b)$value
-  if (abs(v - ev)/v > 0.00005) {
-    message(sprintf("FAIL: vtruncnorm(%4.1f, %4.1f, %4.1f, %4.1f) - mismatch %f vs. %f",
-                    a, b, mean, sd, ev, v))
-  }
+
+  test_that(prefix, {
+    expect_equal(ee, e, tolerance=0.00005)
+    expect_equal(ev, v, tolerance=0.00005)
+  })
 }
 
 ## Left truncated:
@@ -49,25 +47,19 @@ check_dev( 0.0, 1.0, -5.0,  1.0)
 ################################################################################
 ## Sanity checks on random number generators
 check_r <- function(a, b, mean, sd, n=10000) {
+  prefix <- sprintf("R: a=%f, b=%f, mean=%f, sd=%f", a, b, mean, sd)
   x <- rtruncnorm(n, a, b, mean, sd)
-  if (!all(x > a & x < b)) {
-    message(sprintf("FAIL: rtruncnorm(%i, %4.1f, %4.1f, %4.1f, %4.1f) - bounds",
-                    n, a, b, mean, sd))
-  }
-
-  ## Check to make sure mean and variance have the correct magnitude.
   e.x <- mean(x)
   e <- etruncnorm(a, b, mean, sd)
-  if (abs(e.x - e)/sd > 0.05) {
-    message(sprintf("FAIL: rtruncnorm(%i, %4.1f, %4.1f, %4.1f, %4.1f) - mean %f vs. %f",
-                    n, a, b, mean, sd, e.x, e))
-  }
-  sd.x <- sd(x)
-  sd <- sqrt(vtruncnorm(a, b, mean, sd))
-  if (abs(sd.x - sd)/sd.x > 0.05) {
-    message(sprintf("FAIL: rtruncnorm(%i, %4.1f, %4.1f, %4.1f, %4.1f) - variance %f vs. %f",
-                    n, a, b, mean, sd, sd.x, sd))
-  }
+  true_sd <- sqrt(vtruncnorm(a, b, mean, sd)) 
+
+  ## FIXME: Really sample from open intervall?
+  test_that(prefix, {
+    expect_true(all(x > a))
+    expect_true(all(x < b))
+    expect_equal(mean(x), e, tolerance=0.05, scale=sd)
+    expect_equal(sd(x), true_sd, tolerance=0.05, scale=sd)
+  })
 }
 
 ## rtruncnorm == rnorm:
@@ -134,14 +126,14 @@ check_r(-Inf,  0.2, 0, 2)
 check_r(-5, -4, 0, 1)
 
 check_pq <- function(a, b, mean, sd) {
-  for (p in runif(500)) {
-    q <- qtruncnorm(p, a, b, mean, sd)
-    pp <- ptruncnorm(q, a, b, mean, sd)
-    if (abs(p - pp) > 0.00001) {
-      message(sprintf("ptruncnorm(%6.4f, %6.4f, %6.4f, %6.4f, %6.4f) - disagree with qtruncnorm by %f",
-                      p, a, b, mean, sd, abs(p - pp)))
+  prefix <- sprintf("PQ: a=%f, b=%f, mean=%f, sd=%f", a, b, mean, sd)
+  test_that(prefix, {
+    for (p in runif(500)) {
+      q <- qtruncnorm(p, a, b, mean, sd)
+      pp <- ptruncnorm(q, a, b, mean, sd)
+      expect_equal(pp, p, tolerance=0.00001)
     }
-  }
+  })
 }
 
 check_pq(-1, 0, 0, 1)
