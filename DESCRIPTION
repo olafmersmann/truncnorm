@@ -1,5 +1,5 @@
 Package: truncnorm
-Version: 1.0-7.4
+Version: 1.0-7.6
 Title: Truncated normal distribution
 Description: r/d/p/q functions for the truncated normal distribution
 Author: Heike Trautmann <trautmann@statistik.uni-dortmund.de> and
@@ -7,6 +7,8 @@ Author: Heike Trautmann <trautmann@statistik.uni-dortmund.de> and
         <olafm@statistik.uni-dortmund.de> and Björn Bornkamp
         <bornkamp@statistik.tu-dortmund.de>
 Maintainer: Olaf Mersmann <olafm@statistik.uni-dortmund.de>
+URL: https://github.com/olafmersmann/truncnorm
+BugReports: https://github.com/olafmersmann/truncnorm/issues
 Depends: R (>= 2.15.0)
 Suggests: testthat
 License: GPL-2
