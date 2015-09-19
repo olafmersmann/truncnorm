@@ -1,5 +1,5 @@
 # truncnorm
-R package implementing r/d/p/q functions for the truncated normal distribution.
+R package implementing density, probability, quantile and random number generation functions for the truncated normal distribution.
 
 ## Install from github
 
