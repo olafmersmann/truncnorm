@@ -1,7 +1,8 @@
 Package: truncnorm
-Version: 1.0-7.6
+Version: 1.0-7.9
 Title: Truncated normal distribution
-Description: r/d/p/q functions for the truncated normal distribution
+Description: Density, probability, quantile and random number
+        generation functions for the truncated normal distribution.
 Author: Heike Trautmann <trautmann@statistik.uni-dortmund.de> and
         Detlef Steuer <detlef.steuer@hsu-hamburg.de> and Olaf Mersmann
         <olafm@statistik.uni-dortmund.de> and Björn Bornkamp

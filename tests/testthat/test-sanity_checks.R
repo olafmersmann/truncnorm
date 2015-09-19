@@ -13,8 +13,8 @@ check_dev <- function(a, b, mean=0, sd=1) {
 
   test_that(prefix, {
     expect_equal(id, 1.0, tolerance=0.00005)
-    expect_equal(ee, e, tolerance=0.00005)
-    expect_equal(ev, v, tolerance=0.00005)
+    expect_equal(e, ee, tolerance=0.00005)
+    expect_equal(v, ev, tolerance=0.00005)
   })
 }
 
@@ -49,7 +49,7 @@ check_dev( 0.0, 1.0,  5.0,  0.1)
 
 ################################################################################
 ## Sanity checks on random number generators
-check_r <- function(a, b, mean, sd, n=10000) {
+ check_r <- function(a, b, mean, sd, n=10000) {
   prefix <- sprintf("R: a=%f, b=%f, mean=%f, sd=%f", a, b, mean, sd)
   x <- rtruncnorm(n, a, b, mean, sd)
   e.x <- mean(x)

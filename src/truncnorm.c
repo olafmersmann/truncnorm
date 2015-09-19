@@ -38,13 +38,18 @@
  */
 static R_INLINE double e_lefttruncnorm(double a, double mean, double sd) {
   const double alpha = (a - mean) / sd;
-  const double phi_a = dnorm(alpha, 0.0, 1.0, FALSE);
-  const double Phi_a = pnorm(alpha, 0.0, 1.0, TRUE, FALSE);
-  double res = mean + sd * (phi_a / (1.0 - Phi_a));
+  const double phi_a = dnorm(alpha, 0.0, 1.0, TRUE);
+  const double Phi_a = pnorm(alpha, 0.0, 1.0, FALSE, TRUE);
+  double res = mean + sd * exp(phi_a - Phi_a);
   return res;
 }
 
 static R_INLINE double e_truncnorm(double a, double b, double mean, double sd) {
+  /* Special case numerically instable case when (a, b) is far away from the
+   * center of mass. */
+  if (b < mean - 6.0 * sd || a > mean + 6.0 * sd)
+    return (a + b) / 2.0;
+
   double delta_phi = 0.0, delta_Phi = 0.0;
 
   const double alpha = (a - mean) / sd;
@@ -67,19 +72,14 @@ static R_INLINE double e_truncnorm(double a, double b, double mean, double sd) {
   } else {
     delta_Phi = logspace_sub(Phi_a, Phi_b);
   }
-  /* Rprintf("pb - pa = dp: %.16f - %.16f = %.16f\n", phi_b, phi_a, delta_phi);
-   */
-  /* Rprintf("Pa - Pb = dP: %.16f - %.16f = %.16f\n", Phi_a, Phi_b, delta_Phi);
-   */
-
   return mean + sd * -exp(delta_phi - delta_Phi);
 }
 
 static R_INLINE double e_righttruncnorm(double b, double mean, double sd) {
   const double beta = (b - mean) / sd;
-  const double phi_b = dnorm(beta, 0.0, 1.0, FALSE);
-  const double Phi_b = pnorm(beta, 0.0, 1.0, TRUE, FALSE);
-  return mean + sd * (-phi_b / Phi_b);
+  const double phi_b = dnorm(beta, 0.0, 1.0, TRUE);
+  const double Phi_b = pnorm(beta, 0.0, 1.0, TRUE, TRUE);
+  return mean + sd * -exp(phi_b - Phi_b);
 }
 
 static R_INLINE double v_lefttruncnorm(double a, double mean, double sd) {
@@ -95,22 +95,26 @@ static R_INLINE double v_righttruncnorm(double b, double mean, double sd) {
 }
 
 static R_INLINE double v_truncnorm(double a, double b, double mean, double sd) {
+  /* Special case numerically instable cases. These arise when (a, b) is far
+   * away from mean +/- 6*sd */
+  if (b < mean - 6.0 * sd || a > mean + 6.0 * sd)
+    return 1.0 / 12 * (b - a) * (b - a);
+
+  const double v = sd * sd;
   const double pi1 = pnorm(a, mean, sd, TRUE, FALSE);
   const double pi2 =
       pnorm(b, mean, sd, TRUE, FALSE) - pnorm(a, mean, sd, TRUE, FALSE);
   const double pi3 = pnorm(b, mean, sd, FALSE, FALSE); /* 1 - F(b) */
-
   const double e1 = e_righttruncnorm(a, mean, sd);
   const double e2 = e_truncnorm(a, b, mean, sd);
   const double e3 = e_lefttruncnorm(b, mean, sd);
 
-  const double v = sd * sd;
   const double v1 = v_righttruncnorm(a, mean, sd);
   const double v3 = v_lefttruncnorm(b, mean, sd);
 
   const double c1 = pi1 * (v1 + (e1 - mean) * (e1 - mean));
   const double c3 = pi3 * (v3 + (e3 - mean) * (e3 - mean));
-
+  const double cd = pi2 - (e2 - mean) * (e2 - mean);
   return (v - c1 - c3) / pi2 - (e2 - mean) * (e2 - mean);
 }
 
@@ -166,7 +170,7 @@ SEXP do_dtruncnorm(SEXP s_x, SEXP s_a, SEXP s_b, SEXP s_mean, SEXP s_sd) {
       const double c1 = pnorm(ca, cmean, csd, TRUE, FALSE);
       const double c2 = pnorm(cb, cmean, csd, TRUE, FALSE);
       const double c3 = csd * (c2 - c1);
-      const double c4 = dnorm((cx - cmean)/csd, 0.0, 1.0, TRUE);
+      const double c4 = dnorm((cx - cmean) / csd, 0.0, 1.0, TRUE);
       if (!isfinite(log(c3))) {
         ret[i] = 1.0 / (cb - ca);
       } else {
