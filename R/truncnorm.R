@@ -8,13 +8,16 @@
 ##
 
 dtruncnorm <- function(x, a=-Inf, b=Inf, mean=0, sd=1)
-  .Call("do_dtruncnorm", x, a, b, mean, sd)
+  .Call("do_dtruncnorm", as.numeric(x),
+        as.numeric(a), as.numeric(b), as.numeric(mean), as.numeric(sd))
 
 ptruncnorm <- function(q, a=-Inf, b=Inf, mean=0, sd=1)
-  .Call("do_ptruncnorm", q, a, b, mean, sd)
+  .Call("do_ptruncnorm", as.numeric(q),
+        as.numeric(a), as.numeric(b), as.numeric(mean), as.numeric(sd))
 
 qtruncnorm <- function(p, a=-Inf, b=Inf, mean=0, sd=1)
-  .Call("do_qtruncnorm", p, a, b, mean, sd)
+  .Call("do_qtruncnorm", as.numeric(p),
+        as.numeric(a), as.numeric(b), as.numeric(mean), as.numeric(sd))
 
 rtruncnorm <- function(n, a=-Inf, b=Inf, mean=0, sd=1) {
   if (length(n) > 1)
@@ -23,11 +26,14 @@ rtruncnorm <- function(n, a=-Inf, b=Inf, mean=0, sd=1) {
     stop("non-numeric argument n.")
   else if (n == 0)
     return(NULL)
-  .Call("do_rtruncnorm", as.integer(n), a, b, mean, sd)
+  .Call("do_rtruncnorm", as.integer(n),
+        as.numeric(a), as.numeric(b), as.numeric(mean), as.numeric(sd))
 }
 
 etruncnorm <- function(a=-Inf, b=Inf, mean=0, sd=1)
-  .Call("do_etruncnorm", a, b, mean, sd)
+  .Call("do_etruncnorm",
+        as.numeric(a), as.numeric(b), as.numeric(mean), as.numeric(sd))
 
 vtruncnorm <- function(a=-Inf, b=Inf, mean=0, sd=1)
-  .Call("do_vtruncnorm", a, b, mean, sd)
+  .Call("do_vtruncnorm", 
+        as.numeric(a), as.numeric(b), as.numeric(mean), as.numeric(sd))

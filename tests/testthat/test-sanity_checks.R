@@ -47,9 +47,12 @@ check_dev(-1.0, 0.0,  0.0, 10.0)
 check_dev( 0.0, 1.0, -5.0,  1.0)
 check_dev( 0.0, 1.0,  5.0,  0.1)
 
+## Integer arguments:
+check_dev(0L, 1L, 0L, 10L)
+
 ################################################################################
 ## Sanity checks on random number generators
- check_r <- function(a, b, mean, sd, n=10000) {
+check_r <- function(a, b, mean, sd, n=10000) {
   prefix <- sprintf("R: a=%f, b=%f, mean=%f, sd=%f", a, b, mean, sd)
   x <- rtruncnorm(n, a, b, mean, sd)
   e.x <- mean(x)
@@ -128,6 +131,10 @@ check_r(-Inf,  0.2, 0, 2)
 ## Extreme examples:
 check_r(-5, -4, 0, 1)
 
+## Integer examples:
+check_r(-5L, -4L, 0L, 1L)
+
+################################################################################
 check_pq <- function(a, b, mean, sd) {
   prefix <- sprintf("PQ: a=%f, b=%f, mean=%f, sd=%f", a, b, mean, sd)
   test_that(prefix, {
@@ -154,3 +161,6 @@ check_pq(-1, Inf, 0, 3)
 check_pq(-Inf, 1, 0, 1)
 check_pq(-Inf, 1, 4, 1)
 check_pq(-Inf, 1, 0, 3)
+
+## Integer examples:
+check_pq(1L, 2L, 0L, 3L)
