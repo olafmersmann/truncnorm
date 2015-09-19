@@ -7,10 +7,12 @@ check_dev <- function(a, b, mean=0, sd=1) {
   e <- etruncnorm(a, b, mean, sd)
   v <- vtruncnorm(a, b, mean, sd)
 
+  id <- integrate(function(x) dtruncnorm(x, a, b, mean, sd), a, b)$value
   ee <- integrate(function(x) x * dtruncnorm(x, a, b, mean, sd), a, b)$value
   ev <- integrate(function(x) (x-ee)^2 * dtruncnorm(x, a, b, mean, sd), a, b)$value
 
   test_that(prefix, {
+    expect_equal(id, 1.0, tolerance=0.00005)
     expect_equal(ee, e, tolerance=0.00005)
     expect_equal(ev, v, tolerance=0.00005)
   })
@@ -43,6 +45,7 @@ check_dev( 0.0, 1.0,  0.0, 10.0)
 check_dev( 0.0, 1.0,  5.0,  1.0)
 check_dev(-1.0, 0.0,  0.0, 10.0)
 check_dev( 0.0, 1.0, -5.0,  1.0)
+check_dev( 0.0, 1.0,  5.0,  0.1)
 
 ################################################################################
 ## Sanity checks on random number generators
