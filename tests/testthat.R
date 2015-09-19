@@ -1,2 +1,2 @@
-library("testthat")
-test_check("truncnorm")
+if (require("testthat"))
+  test_check("truncnorm")
