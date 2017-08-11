@@ -33,6 +33,9 @@ vtruncnorm(a=-Inf, b=Inf, mean=0, sd=1)
   If \code{mean} or \code{sd} are not specified they assume the default values of
   \code{0} and \code{1}, respectively. The values of \code{a}, \code{b},
   \code{mean} and \code{sd} are recycled as needed.
+
+  The numerical arguments other than \code{n} are recycled to the length
+  of the result.
 }
 \value{
   'dtruncnorm' gives the density, 'ptruncnorm' gives the distribution
