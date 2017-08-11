@@ -20,6 +20,10 @@ qtruncnorm <- function(p, a=-Inf, b=Inf, mean=0, sd=1)
         as.numeric(a), as.numeric(b), as.numeric(mean), as.numeric(sd))
 
 rtruncnorm <- function(n, a=-Inf, b=Inf, mean=0, sd=1) {
+  stopifnot(length(a) > 0,
+            length(b) > 0,
+            length(mean) > 0,
+            length(sd) > 0)
   if (length(n) > 1)
     n <- length(n)
   else if (!is.numeric(n))

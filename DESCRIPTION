@@ -1,5 +1,5 @@
 Package: truncnorm
-Version: 1.0-7.9
+Version: 1.0-7.13
 Title: Truncated normal distribution
 Description: Density, probability, quantile and random number
         generation functions for the truncated normal distribution.
