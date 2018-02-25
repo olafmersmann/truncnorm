@@ -11,6 +11,5 @@ library("devtools")
 install_github("olafmersmann/truncnorm")
 ```
 
-[![CRAN Status Badge](http://www.r-pkg.org/badges/version/truncnorm)](http://cran.r-project.org/web/packages/truncnorm)
-[![CRAN Downloads](http://cranlogs.r-pkg.org/badges/truncnorm)](http://cran.rstudio.com/web/packages/truncnorm/index.html)
-
+[![CRAN Status Badge](http://www.r-pkg.org/badges/version/truncnorm)](http://cran.r-project.org/package=truncnorm)
+[![CRAN Downloads](http://cranlogs.r-pkg.org/badges/truncnorm)](http://cran.r-project.org/package=truncnorm)
