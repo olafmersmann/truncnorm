@@ -1,16 +1,17 @@
 Package: truncnorm
-Version: 1.0-7.13
+Version: 1.0-8
 Title: Truncated normal distribution
 Description: Density, probability, quantile and random number
         generation functions for the truncated normal distribution.
-Author: Heike Trautmann <trautmann@statistik.uni-dortmund.de> and
-        Detlef Steuer <detlef.steuer@hsu-hamburg.de> and Olaf Mersmann
-        <olafm@statistik.uni-dortmund.de> and Björn Bornkamp
-        <bornkamp@statistik.tu-dortmund.de>
-Maintainer: Olaf Mersmann <olafm@statistik.uni-dortmund.de>
+Authors@R: c(person("Olaf", "Mersmann", role=c("aut", "cre"), 
+                    email="olafm@p-value.net"),
+             person("Heike", "Trautmann", role=c("aut")),
+             person("Detlef", "Steuer", role=c("aut")),
+             person("Björn", "Bornkamp", role=c("aut")))
 URL: https://github.com/olafmersmann/truncnorm
 BugReports: https://github.com/olafmersmann/truncnorm/issues
-Depends: R (>= 2.15.0)
+Depends: R (>= 3.4.0)
 Suggests: testthat
-License: GPL-2
+License: GPL (>= 2)
 Encoding: UTF-8
+RoxygenNote: 6.0.1
