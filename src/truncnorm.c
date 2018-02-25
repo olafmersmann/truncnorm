@@ -166,7 +166,6 @@ SEXP do_dtruncnorm(SEXP s_x, SEXP s_a, SEXP s_b, SEXP s_mean, SEXP s_sd) {
     if (ca <= cx && cx <= cb) { /* In range: */
       const double cmean = mean[i % n_mean];
       const double csd = sd[i % n_sd];
-      Rprintf("x=%f a=%f b=%f m=%f s=%f\n", cx, ca, cb, cmean, csd);
 
       const double c1 = pnorm(ca, cmean, csd, TRUE, FALSE);
       const double c2 = pnorm(cb, cmean, csd, TRUE, FALSE);
