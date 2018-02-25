@@ -1,6 +1,6 @@
 Package: truncnorm
 Version: 1.0-8
-Title: Truncated normal distribution
+Title: Truncated Normal Distribution
 Description: Density, probability, quantile and random number
         generation functions for the truncated normal distribution.
 Authors@R: c(person("Olaf", "Mersmann", role=c("aut", "cre"), 
