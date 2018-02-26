@@ -1,7 +1,6 @@
-^dist
-^do
 ^.dict.rds
 ^examples
 ^src/.*\.o
 ^src/.*\.so
 .clang-format
+^cran-comments\.md$
