@@ -17,6 +17,7 @@ os:
 before_install: 
   - if [[ "${TRAVIS_OS_NAME}" = 'osx' ]]; 
     then 
+      sudo chown -R $(whoami) /usr/local/share/man/man7 ;
       brew update;
       brew install -v libgit2; 
     fi
