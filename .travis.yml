@@ -6,7 +6,15 @@ warnings_are_errors: true
 r:
 - 3.3
 - 3.4
+osx_image: xcode9 
 
 os: 
   - linux
   - osx 
+
+before_install: 
+  - if [[ "${TRAVIS_OS_NAME}" = 'osx' ]]; 
+    then 
+      brew update;
+      brew install -v libgit2; 
+    fi
