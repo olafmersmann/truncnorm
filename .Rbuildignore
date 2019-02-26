@@ -1,3 +1,4 @@
+^appveyor\.yml$
 ^\.travis\.yml$
 ^.dict.rds
 ^examples
