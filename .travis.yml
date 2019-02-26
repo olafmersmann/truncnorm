@@ -6,6 +6,8 @@ warnings_are_errors: true
 r:
 - 3.3
 - 3.4
+- 3.5
+- devel
 osx_image: xcode9 
 
 os: 

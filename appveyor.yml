@@ -18,14 +18,13 @@ environment:
     USE_RTOOLS: true
     R_CHECK_INSTALL_ARGS: "--install-args=--build --no-multiarch "
     WARNINGS_ARE_ERRORS: 1
+    CRAN: http://cran.rstudio.com    
   matrix:
+    - R_VERSION: release
+    - R_VERSION: devel
     - R_VERSION: oldrel
-      CRAN: http://cran.rstudio.com
-      R_VER: 3.4
-
-    - R_VERSION: 3.3.0
-      CRAN: http://cran.rstudio.com
-      R_VER: 3.3
+    - R_VERSION: 3.3.3
+      
 
 
 # Adapt as necessary starting from here
