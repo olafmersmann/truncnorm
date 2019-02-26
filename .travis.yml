@@ -2,7 +2,7 @@
 
 language: R
 cache: packages
-
+warnings_are_errors: true
 r:
 - 3.2
 - 3.3
