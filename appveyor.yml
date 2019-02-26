@@ -27,10 +27,6 @@ environment:
       CRAN: http://cran.rstudio.com
       R_VER: 3.3
 
-    - R_VERSION: 3.2.5
-      CRAN: http://cran.rstudio.com
-      R_VER: 3.2      
-
 
 # Adapt as necessary starting from here
 
