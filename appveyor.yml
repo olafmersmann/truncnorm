@@ -18,9 +18,6 @@ environment:
     USE_RTOOLS: true
     R_CHECK_INSTALL_ARGS: "--install-args=--build --no-multiarch "
     WARNINGS_ARE_ERRORS: 1
-    PYTHON_VERSION: 3.6
-    MINICONDA: C:\Miniconda3-x64
-    R_ARCH: x64
   matrix:
     - R_VERSION: oldrel
       CRAN: http://cran.rstudio.com
@@ -29,6 +26,10 @@ environment:
     - R_VERSION: 3.3.0
       CRAN: http://cran.rstudio.com
       R_VER: 3.3
+
+    - R_VERSION: 3.2.5
+      CRAN: http://cran.rstudio.com
+      R_VER: 3.2      
 
 
 # Adapt as necessary starting from here
