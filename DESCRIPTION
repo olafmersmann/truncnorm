@@ -10,7 +10,7 @@ Authors@R: c(person("Olaf", "Mersmann", role=c("aut", "cre"),
              person("Björn", "Bornkamp", role=c("aut")))
 URL: https://github.com/olafmersmann/truncnorm
 BugReports: https://github.com/olafmersmann/truncnorm/issues
-Depends: R (>= 3.4.0)
+Depends: R (>= 3.3)
 Suggests: testthat
 License: GPL (>= 2)
 Encoding: UTF-8
