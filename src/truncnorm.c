@@ -24,6 +24,10 @@
 #define MAX(A, B) ((A > B) ? (A) : (B))
 #endif
 
+#ifndef MIN
+#define MIN(A, B) ((A < B) ? (A) : (B))
+#endif
+
 /*
  * These routines calculate the expected value and variance of the
  * left, right and doubly truncated normal distribution. The only
@@ -156,6 +160,11 @@ SEXP do_dtruncnorm(SEXP s_x, SEXP s_a, SEXP s_b, SEXP s_mean, SEXP s_sd) {
   UNPACK_REAL_VECTOR(s_mean, mean, n_mean);
   UNPACK_REAL_VECTOR(s_sd, sd, n_sd);
 
+  n = MIN(MIN(MIN(n_x, n_a), MIN(n_b, n_mean)), n_sd);
+  if (n == 0) {
+    return R_NilValue;
+  }
+
   n = MAX(MAX(MAX(n_x, n_a), MAX(n_b, n_mean)), n_sd);
   ALLOC_REAL_VECTOR(s_ret, ret, n);
 
@@ -193,6 +202,11 @@ SEXP do_ptruncnorm(SEXP s_q, SEXP s_a, SEXP s_b, SEXP s_mean, SEXP s_sd) {
   UNPACK_REAL_VECTOR(s_mean, mean, n_mean);
   UNPACK_REAL_VECTOR(s_sd, sd, n_sd);
 
+  n = MIN(MIN(MIN(n_q, n_a), MIN(n_b, n_mean)), n_sd);
+  if (n == 0) {
+    return R_NilValue;
+  }
+
   n = MAX(MAX(MAX(n_q, n_a), MAX(n_b, n_mean)), n_sd);
   ALLOC_REAL_VECTOR(s_ret, ret, n);
 
@@ -219,6 +233,11 @@ SEXP do_qtruncnorm(SEXP s_p, SEXP s_a, SEXP s_b, SEXP s_mean, SEXP s_sd) {
   UNPACK_REAL_VECTOR(s_b, b, n_b);
   UNPACK_REAL_VECTOR(s_mean, mean, n_mean);
   UNPACK_REAL_VECTOR(s_sd, sd, n_sd);
+
+  n = MIN(MIN(MIN(n_p, n_a), MIN(n_b, n_mean)), n_sd);
+  if (n == 0) {
+    return R_NilValue;
+  }
 
   n = MAX(MAX(MAX(n_p, n_a), MAX(n_b, n_mean)), n_sd);
   ALLOC_REAL_VECTOR(s_ret, ret, n);
@@ -277,6 +296,11 @@ SEXP do_etruncnorm(SEXP s_a, SEXP s_b, SEXP s_mean, SEXP s_sd) {
   UNPACK_REAL_VECTOR(s_mean, mean, n_mean);
   UNPACK_REAL_VECTOR(s_sd, sd, n_sd);
 
+  n = MIN(MIN(n_a, n_b), MIN(n_mean, n_sd));
+  if (n == 0) {
+    return R_NilValue;
+  }
+
   n = MAX(MAX(n_a, n_b), MAX(n_mean, n_sd));
   ALLOC_REAL_VECTOR(s_ret, ret, n);
 
@@ -309,6 +333,11 @@ SEXP do_vtruncnorm(SEXP s_a, SEXP s_b, SEXP s_mean, SEXP s_sd) {
   UNPACK_REAL_VECTOR(s_b, b, n_b);
   UNPACK_REAL_VECTOR(s_mean, mean, n_mean);
   UNPACK_REAL_VECTOR(s_sd, sd, n_sd);
+
+  n = MIN(MIN(n_a, n_b), MIN(n_mean, n_sd));
+  if (n == 0) {
+    return R_NilValue;
+  }
 
   n = MAX(MAX(n_a, n_b), MAX(n_mean, n_sd));
   ALLOC_REAL_VECTOR(s_ret, ret, n);
