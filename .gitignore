@@ -19,4 +19,3 @@ vignettes/*.pdf
 # Cruft
 *.swp
 dist/
-check-*
