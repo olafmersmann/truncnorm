@@ -35,9 +35,9 @@ rtruncnorm <- function(n, a=-Inf, b=Inf, mean=0, sd=1) {
 }
 
 etruncnorm <- function(a=-Inf, b=Inf, mean=0, sd=1)
-  .Call("do_etruncnorm",
+  .Call(C_do_etruncnorm,
         as.numeric(a), as.numeric(b), as.numeric(mean), as.numeric(sd))
 
 vtruncnorm <- function(a=-Inf, b=Inf, mean=0, sd=1)
-  .Call("do_vtruncnorm", 
+  .Call(C_do_vtruncnorm,
         as.numeric(a), as.numeric(b), as.numeric(mean), as.numeric(sd))
