@@ -1,6 +1,5 @@
-^.dict.rds
-^examples
+.clang-format
+.github/
 ^src/.*\.o
 ^src/.*\.so
-.clang-format
-^cran-comments\.md$
+cran-comments.md
