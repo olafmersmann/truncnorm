@@ -19,3 +19,4 @@ vignettes/*.pdf
 # Cruft
 *.swp
 dist/
+cran-comments.md
