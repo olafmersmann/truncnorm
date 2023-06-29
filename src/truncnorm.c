@@ -118,7 +118,6 @@ static R_INLINE double v_truncnorm(double a, double b, double mean, double sd) {
 
   const double c1 = pi1 * (v1 + (e1 - mean) * (e1 - mean));
   const double c3 = pi3 * (v3 + (e3 - mean) * (e3 - mean));
-  const double cd = pi2 - (e2 - mean) * (e2 - mean);
   return (v - c1 - c3) / pi2 - (e2 - mean) * (e2 - mean);
 }
 
