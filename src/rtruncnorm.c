@@ -102,7 +102,7 @@ double hnrs_a_b(double a, double b) {
 static R_INLINE double urs_a_b(double a, double b) {
   SAMPLER_DEBUG("urs_a_b", a, b);
   const double phi_a = dnorm(a, 0.0, 1.0, FALSE);
-  double x = 0.0, u = 0.0;
+  double x = 0.0;
 
   /* Upper bound of normal density on [a, b] */
   const double ub = a < 0 && b > 0 ? M_1_SQRT_2PI : phi_a;
